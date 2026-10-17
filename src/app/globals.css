@@ -81,3 +81,38 @@ textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: #333333;
 }
+
+/* Desktop (Electron) frameless title bar.
+   The window controls overlay sits on top of the page, so keep content clear of it
+   and expose a draggable strip painted with the app background colour. */
+.titlebar-drag {
+  display: none;
+}
+
+html.desktop-titlebar {
+  background: var(--bg);
+}
+
+html.desktop-titlebar body {
+  padding-top: 36px;
+}
+
+html.desktop-titlebar .h-screen {
+  height: calc(100vh - 36px);
+}
+
+html.desktop-titlebar .min-h-screen {
+  min-height: calc(100vh - 36px);
+}
+
+html.desktop-titlebar .titlebar-drag {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 36px;
+  z-index: 60;
+  -webkit-app-region: drag;
+  app-region: drag;
+}

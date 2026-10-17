@@ -2,10 +2,16 @@
   "name": "flash-sql-studio",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
+  "description": "Flash SQL Studio — multi-database SQL workspace for Postgres, MySQL, SQL Server and SQLite",
+  "author": "zaisuf",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "desktop:dev": "cross-env ELECTRON_DEV=1 electron .",
+    "desktop:build": "node scripts/build-desktop.mjs",
+    "desktop:pack": "electron-builder --publish never"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",
@@ -28,7 +34,65 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "cross-env": "^10.1.0",
+    "electron": "^44.9.0",
+    "electron-builder": "^26.15.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
+  },
+  "build": {
+    "appId": "com.zaisuf.flashsqlstudio",
+    "productName": "Flash SQL Studio",
+    "copyright": "Copyright © 2026 zaisuf",
+    "npmRebuild": false,
+    "buildDependenciesFromSource": false,
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "package.json",
+      "!node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": ".next-build/standalone",
+        "to": "app"
+      },
+      {
+        "from": ".next-build/standalone/node_modules",
+        "to": "app/node_modules"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "FlashSQLStudio-${version}-win-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "FlashSQLStudio-${version}-win-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "FlashSQLStudio-${version}-win-${arch}-portable.${ext}"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development",
+      "icon": "build/icon.png"
+    }
   }
 }

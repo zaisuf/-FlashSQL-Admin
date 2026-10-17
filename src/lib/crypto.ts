@@ -2,7 +2,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-export const dataDir = path.join(process.cwd(), ".data");
+export const dataDir = process.env.FLASH_SQL_DATA_DIR
+  ? path.resolve(process.env.FLASH_SQL_DATA_DIR)
+  : path.join(process.cwd(), ".data");
 
 export function ensureDir() {
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });

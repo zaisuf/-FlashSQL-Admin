@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Database, LayoutPanelLeft, Plus, Server, Trash2, Zap } from "lucide-react";
+import { LayoutPanelLeft, Plus, Server, Trash2, Zap } from "lucide-react";
 import type { SessionInfo, StoredConnection } from "@/lib/types";
 import { DB_META, classNames } from "@/lib/ui";
 
@@ -81,13 +81,14 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-6 py-12">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ff5a1f]/15 text-[#ff5a1f]">
-            <Database size={20} />
-          </div>
-          <div>
-            <h1 className="display text-3xl leading-none text-[#f5f5f5]">Flash SQL Studio</h1>
-            <p className="text-xs text-[#8a8a8a]">Multi-database data workspace</p>
-          </div>
+          <img
+            src="/flash-logo.png"
+            alt="Flash SQL Studio"
+            width={44}
+            height={44}
+            className="h-11 w-11"
+          />
+          <h1 className="display text-3xl leading-none text-[#f5f5f5]">Flash SQL Studio</h1>
         </div>
         <button
           onClick={() => router.push("/connect")}

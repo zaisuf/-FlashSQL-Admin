@@ -15,14 +15,17 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Flash SQL Studio — Data Workspace",
+  title: "Flash SQL Studio",
   description: "Multi-database data preview workspace for Postgres, MySQL, SQL Server and SQLite",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-[#0a0a0a] text-[#f5f5f5] antialiased">{children}</body>
+      <body className="min-h-screen bg-[#0a0a0a] text-[#f5f5f5] antialiased">
+        <div className="titlebar-drag" />
+        {children}
+      </body>
     </html>
   );
 }

@@ -3,10 +3,16 @@
 
 # next.js
 /.next
+/.next-build
 /out
 
-# production
-/build
+# electron build output
+/release
+
+# next.js export output
+/build/out
+
+# note: /build holds electron-builder resources (icon.ico, icon.png) and is committed
 
 # env files
 .env
