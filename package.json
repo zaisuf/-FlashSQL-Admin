@@ -5,6 +5,7 @@
   "main": "electron/main.js",
   "description": "Flash SQL Studio — multi-database SQL workspace for Postgres, MySQL, SQL Server and SQLite",
   "author": "zaisuf",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

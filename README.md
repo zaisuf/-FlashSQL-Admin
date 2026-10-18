@@ -251,4 +251,22 @@ Next.js 16.4 · React 19 · TypeScript · Tailwind CSS v4 · zustand · react-re
 
 ## License
 
-No license is granted yet — the repository is public for distribution and reference. Add a `LICENSE` file before allowing reuse.
+Released under the **Apache License 2.0** — see [LICENSE](LICENSE).
+
+```
+Copyright 2026 zaisuf
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+You are free to use, modify and redistribute this software, including commercially, provided you keep the copyright notices and the [NOTICE](NOTICE) file, and state any changes you make. The license also grants a patent license. "Flash SQL Studio" and the logo are not covered by the license (see section 6, Trademarks).
