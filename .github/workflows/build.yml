@@ -14,9 +14,9 @@ jobs:
     name: macOS arm64
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -24,14 +24,31 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Configure code signing (only when the secrets exist)
+        env:
+          IN_CSC_LINK: ${{ secrets.CSC_LINK }}
+          IN_CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          IN_APPLE_ID: ${{ secrets.APPLE_ID }}
+          IN_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          IN_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ -n "$IN_CSC_LINK" ]; then
+            echo "CSC_LINK=$IN_CSC_LINK" >> "$GITHUB_ENV"
+            echo "CSC_KEY_PASSWORD=$IN_CSC_KEY_PASSWORD" >> "$GITHUB_ENV"
+          fi
+          if [ -n "$IN_APPLE_ID" ]; then
+            echo "APPLE_ID=$IN_APPLE_ID" >> "$GITHUB_ENV"
+            echo "APPLE_APP_SPECIFIC_PASSWORD=$IN_APPLE_APP_SPECIFIC_PASSWORD" >> "$GITHUB_ENV"
+            echo "APPLE_TEAM_ID=$IN_APPLE_TEAM_ID" >> "$GITHUB_ENV"
+          fi
+          if [ -n "$IN_CSC_LINK" ]; then
+            echo "::notice::Building a signed and notarized app."
+          else
+            echo "::notice::No signing secrets found - building an unsigned app."
+          fi
+
       - name: Build app
         run: npm run desktop:build
-        env:
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
