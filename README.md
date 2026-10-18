@@ -118,6 +118,21 @@ release/win-unpacked/                                   # unpacked app (for test
 
 Note: the version in the artifact names comes from `version` in `package.json`.
 
+### macOS builds (via GitHub Actions)
+
+A macOS app cannot be built from Windows — `dmg` creation and code signing need macOS tooling. The workflow in [`.github/workflows/build.yml`](.github/workflows/build.yml) builds the desktop apps on GitHub's hosted runners instead:
+
+- **Windows x64** on `windows-latest` → `.exe` installer + portable
+- **macOS arm64** (Apple Silicon) on `macos-14` → `.dmg` + `.zip`
+
+Trigger it by pushing a tag (`git tag v0.1.1 && git push origin v0.1.1`) or by hand from **Actions → Build desktop apps → Run workflow**. Tag runs also attach everything to a GitHub release.
+
+Native modules are platform-specific, so the macOS job installs its own dependencies with `npm ci` on macOS — that is what makes `better-sqlite3` match the target platform. This is why the build must run on a machine of the target OS rather than cross-compiling.
+
+To also cover Intel Macs, add a second macOS entry to the matrix (`os: macos-13`, if that runner image is still available) rather than cross-building, for the same native-module reason.
+
+Signing and notarization stay off until these repository secrets exist — `CSC_LINK`, `CSC_KEY_PASSWORD` (Developer ID Application certificate, base64 `.p12`) and `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`. electron-builder signs and notarizes automatically once they are set, with no workflow change. Unsigned macOS builds still run, but users must approve them manually in System Settings → Privacy & Security.
+
 ---
 
 ## Configuration
